@@ -1,11 +1,23 @@
 const input = require('sync-input');
 
+function commandInput() {
+    do {
+        console.log("What do you want to do?\n1-Convert currencies 2-Exit program")
+        let command = input();
+        if (command === "1" || command === "2") {
+            return command;
+        } else {
+            console.log("Unknown input");
+        }
+    } while (command !== "1" && command !== "2");
+}
+
 function currencyVerification(currencyValue) {
     let currency = String(currencyValue).toUpperCase();
     if (currency in currencies) {
         return currency
     } else {
-         console.log("Unknown currency");
+        console.log("Unknown currency");
     }
 }
 
@@ -36,6 +48,12 @@ for (let key in currencies) {
 
 
 function main() {
+    command = commandInput();
+    if (command === "2") {
+        console.log("Have a nice day!")
+        return command;
+    }
+
     console.log("What do you want to convert?\nFrom: ");
     let originalCurrency = currencyVerification(input());
     if (originalCurrency === undefined) {
@@ -52,6 +70,12 @@ function main() {
     let result = amount * currencyInUSD * currencies[goalCurrency];
     console.log(`Result: ${amount} ${originalCurrency} equals ${result.toFixed(4)} ${goalCurrency}`)
 
+    return command;
 }
 
-main()
+let command;
+
+do {
+
+    command = main();
+} while (command !== "2");
